@@ -25,6 +25,7 @@ def create_driver():
     return driver
 
 def unfold_info(driver):
+    # extend car type tab
     try:
         unfold_sel = driver.find_elements_by_css_selector('div.list-cont div.js-list-cont-btn a.btn')
         for sel in unfold_sel:
@@ -133,10 +134,12 @@ brand_num = [x for x in range(15, 17)]
 for num in brand_num:
     brand_url = f'https://car.autohome.com.cn/price/brand-{num}.html'
     driver.get(brand_url)
+    # try brand-num page if exists
     try:
         wait.until_not(EC.presence_of_element_located((By.CSS_SELECTOR, '#errorList')))
         for i in range(1, 6):
             crawler(driver)
+            # try next page if exists
             try:
                 next_sel = driver.find_element_by_css_selector('a.page-item-next')
                 if next_sel.get_attribute('href') != 'javascript:void(0)':
